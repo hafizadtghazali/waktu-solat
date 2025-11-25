@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waktu Solat Web App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Work Sans", sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1b242f, #1b242f);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        h1 i {
+            color: #f9e076;
+        }
+        
+        .date-display {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .location-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .location-details h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .location-details p {
+            opacity: 0.9;
+        }
+        
+        .refresh-btn {
+            background-color: #f9e076;
+            color: #1a5fb4;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #ffd43b;
+            transform: scale(1.05);
+        }
+        
+        .prayer-times {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .prayer-card {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .prayer-card.active {
+            background-color: rgba(249, 224, 118, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .prayer-name {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .prayer-time {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .next-prayer {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .next-prayer h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f9e076;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2rem;
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(255, 0, 0, 0.2);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .location-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .prayer-times {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-mosque"></i> Waktu Solat</h1>
+            <div class="date-display" id="current-date">Loading date...</div>
+        </header>
+        
+        <div class="location-info">
+            <div class="location-details">
+                <h2 id="location-name">Locating...</h2>
+                <p id="location-coords">Getting your coordinates...</p>
+            </div>
+            <button class="refresh-btn" id="refresh-btn">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+        </div>
+        
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading prayer times...</p>
+        </div>
+        
+        <div id="error-message" class="error" style="display: none;">
+            <p>Unable to load prayer times. Please try again later.</p>
+        </div>
+        
+        <div class="prayer-times" id="prayer-times" style="display: none;">
+            <!-- Prayer times will be inserted here -->
+        </div>
+        
+        <div class="next-prayer" id="next-prayer" style="display: none;">
+            <h3>Next Prayer</h3>
+            <p id="next-prayer-name">Loading...</p>
+            <div class="countdown" id="countdown">--:--:--</div>
+        </div>
+        
+        <footer>
+            <p>Prayer times provided by JAKIM e-solat API</p>
+            <p>© 2023 Waktu Solat App</p>
+        </footer>
+    </div>
+
+    <script>
+        // DOM Elements
+        const currentDateEl = document.getElementById('current-date');
+        const locationNameEl = document.getElementById('location-name');
+        const locationCoordsEl = document.getElementById('location-coords');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const loadingEl = document.getElementById('loading');
+        const errorMessageEl = document.getElementById('error-message');
+        const prayerTimesEl = document.getElementById('prayer-times');
+        const nextPrayerEl = document.getElementById('next-prayer');
+        const nextPrayerNameEl = document.getElementById('next-prayer-name');
+        const countdownEl = document.getElementById('countdown');
+        
+        // Prayer names and icons
+        const prayers = [
+            { name: 'Subuh', icon: 'fas fa-sun' },
+            { name: 'Syuruk', icon: 'fas fa-sun' },
+            { name: 'Zohor', icon: 'fas fa-sun' },
+            { name: 'Asar', icon: 'fas fa-sun' },
+            { name: 'Maghrib', icon: 'fas fa-moon' },
+            { name: 'Isyak', icon: 'fas fa-moon' }
+        ];
+        
+        // Global variables
+        let userLocation = null;
+        let prayerTimesData = null;
+        let countdownInterval = null;
+        
+        // Initialize the app
+        function init() {
+            updateCurrentDate();
+            getUserLocation();
+            
+            // Set up refresh button
+            refreshBtn.addEventListener('click', function() {
+                getUserLocation();
+            });
+            
+            // Update date every minute
+            setInterval(updateCurrentDate, 60000);
+        }
+        
+        // Update current date display
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            currentDateEl.textContent = now.toLocaleDateString('en-MY', options);
+        }
+        
+        // Get user's geolocation
+        function getUserLocation() {
+            loadingEl.style.display = 'block';
+            errorMessageEl.style.display = 'none';
+            prayerTimesEl.style.display = 'none';
+            nextPrayerEl.style.display = 'none';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        userLocation = { lat, lng };
+                        
+                        locationCoordsEl.textContent = `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+                        getLocationName(lat, lng);
+                        getPrayerTimes(lat, lng);
+                    },
+                    error => {
+                        console.error('Error getting location:', error);
+                        loadingEl.style.display = 'none';
+                        errorMessageEl.style.display = 'block';
+                        locationNameEl.textContent = 'Location access denied';
+                        locationCoordsEl.textContent = 'Please enable location services';
+                    }
+                );
+            } else {
+                loadingEl.style.display = 'none';
+                errorMessageEl.style.display = 'block';
+                locationNameEl.textContent = 'Geolocation not supported';
+                locationCoordsEl.textContent = 'Please use a modern browser';
+            }
+        }
+        
+        // Get location name from coordinates (using reverse geocoding)
+        function getLocationName(lat, lng) {
+            // Using Nominatim OpenStreetMap for reverse geocoding
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.address) {
+                        const address = data.address;
+                        let locationName = '';
+                        
+                        if (address.city) {
+                            locationName = address.city;
+                        } else if (address.town) {
+                            locationName = address.town;
+                        } else if (address.village) {
+                            locationName = address.village;
+                        } else if (address.county) {
+                            locationName = address.county;
+                        } else if (address.state) {
+                            locationName = address.state;
+                        }
+                        
+                        locationNameEl.textContent = locationName || 'Unknown Location';
+                    } else {
+                        locationNameEl.textContent = 'Unknown Location';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error getting location name:', error);
+                    locationNameEl.textContent = 'Unknown Location';
+                });
+        }
+        
+        // Get prayer times from JAKIM API
+        function getPrayerTimes(lat, lng) {
+            // Note: JAKIM API requires zone code, not coordinates
+            // For this demo, we'll use a fallback to a public prayer times API
+            // In a real implementation, you would need to map coordinates to JAKIM zones
+            
+            // Using Aladhan API as a fallback
+            const date = new Date();
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            
+            fetch(`https://api.aladhan.com/v1/timings/${day}-${month}-${year}?latitude=${lat}&longitude=${lng}&method=8`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        prayerTimesData = data.data.timings;
+                        displayPrayerTimes(prayerTimesData);
+                        startCountdown(prayerTimesData);
+                    } else {
+                        throw new Error('Failed to fetch prayer times');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching prayer times:', error);
+                    loadingEl.style.display = 'none';
+                    errorMessageEl.style.display = 'block';
+                });
+        }
+        
+        // Display prayer times
+        function displayPrayerTimes(timings) {
+            prayerTimesEl.innerHTML = '';
+            
+            prayers.forEach(prayer => {
+                const prayerTime = timings[prayer.name === 'Subuh' ? 'Fajr' : 
+                                          prayer.name === 'Syuruk' ? 'Sunrise' : 
+                                          prayer.name === 'Zohor' ? 'Dhuhr' : 
+                                          prayer.name === 'Asar' ? 'Asr' : 
+                                          prayer.name === 'Maghrib' ? 'Maghrib' : 
+                                          'Isha'];
+                
+                const prayerCard = document.createElement('div');
+                prayerCard.className = 'prayer-card';
+                
+                prayerCard.innerHTML = `
+                    <div class="prayer-name">
+                        <i class="${prayer.icon}"></i>
+                        <span>${prayer.name}</span>
+                    </div>
+                    <div class="prayer-time">${prayerTime}</div>
+                `;
+                
+                prayerTimesEl.appendChild(prayerCard);
+            });
+            
+            loadingEl.style.display = 'none';
+            prayerTimesEl.style.display = 'grid';
+            nextPrayerEl.style.display = 'block';
+        }
+        
+        // Start countdown to next prayer
+        function startCountdown(timings) {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            countdownInterval = setInterval(() => {
+                const now = new Date();
+                const currentTime = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+                
+                // Convert prayer times to seconds since midnight
+                const prayerTimesInSeconds = {
+                    'Fajr': timeToSeconds(timings.Fajr),
+                    'Sunrise': timeToSeconds(timings.Sunrise),
+                    'Dhuhr': timeToSeconds(timings.Dhuhr),
+                    'Asr': timeToSeconds(timings.Asr),
+                    'Maghrib': timeToSeconds(timings.Maghrib),
+                    'Isha': timeToSeconds(timings.Isha)
+                };
+                
+                // Find next prayer
+                let nextPrayer = null;
+                let nextPrayerTime = null;
+                
+                for (const [prayer, timeInSeconds] of Object.entries(prayerTimesInSeconds)) {
+                    if (timeInSeconds > currentTime) {
+                        nextPrayer = prayer;
+                        nextPrayerTime = timeInSeconds;
+                        break;
+                    }
+                }
+                
+                // If no prayer found for today, use first prayer of next day
+                if (!nextPrayer) {
+                    nextPrayer = 'Fajr';
+                    nextPrayerTime = prayerTimesInSeconds.Fajr + 24 * 3600; // Add 24 hours
+                }
+                
+                // Calculate time difference
+                const timeDiff = nextPrayerTime - currentTime;
+                
+                // Update display
+                const prayerNames = {
+                    'Fajr': 'Subuh',
+                    'Sunrise': 'Syuruk',
+                    'Dhuhr': 'Zohor',
+                    'Asr': 'Asar',
+                    'Maghrib': 'Maghrib',
+                    'Isha': 'Isyak'
+                };
+                
+                nextPrayerNameEl.textContent = prayerNames[nextPrayer];
+                countdownEl.textContent = formatTime(timeDiff);
+                
+                // Update active prayer card
+                updateActivePrayerCard(prayerNames[nextPrayer]);
+            }, 1000);
+        }
+        
+        // Convert time string to seconds since midnight
+        function timeToSeconds(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 3600 + minutes * 60;
+        }
+        
+        // Format seconds to HH:MM:SS
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // Update active prayer card
+        function updateActivePrayerCard(nextPrayerName) {
+            const prayerCards = document.querySelectorAll('.prayer-card');
+            
+            prayerCards.forEach(card => {
+                const prayerName = card.querySelector('.prayer-name span').textContent;
+                
+                if (prayerName === nextPrayerName) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
