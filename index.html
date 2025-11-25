@@ -76,7 +76,7 @@
         
         .refresh-btn {
             background: none;
-            border: 1px solid #3a3a3a;
+            border: 1px solid #161c18;
             color: #e0e0e0;
             padding: 10px;
             border-radius: 8px;
@@ -185,7 +185,7 @@
         .location-btn {
             flex: 1;
             background-color: #01a247;
-            border: 1px solid #3a3a3a;
+            border: 1px solid #161c18;
             color: #e0e0e0;
             padding: 10px;
             border-radius: 8px;
@@ -195,7 +195,7 @@
         }
         
         .location-btn:hover {
-            background-color: #3a3a3a;
+            background-color: #161c18;
         }
         
         .location-btn.active {
@@ -224,16 +224,16 @@
     <div class="container">
         <header>
             <h1>Waktu Solat</h1>
-            <div class="date-display" id="current-date">Loading date...</div>
+            <div class="date-display" id="current-date">Kemaskini tarikh...</div>
         </header>
         
         <div class="location-info">
             <div class="location-details">
-                <h2 id="location-name">Locating...</h2>
-                <p id="location-coords">Getting your location...</p>
+                <h2 id="location-name">Jejak...</h2>
+                <p id="location-coords">Mencari lokasi...</p>
                 <div class="location-options">
-                    <button class="location-btn" id="btn-precise">Precise Location</button>
-                    <button class="location-btn active" id="btn-estimated">Estimated Location</button>
+                    <button class="location-btn" id="btn-precise">Geo-Lokasi</button>
+                    <button class="location-btn active" id="btn-estimated">Lokasi Anggaran</button>
                 </div>
             </div>
             <button class="refresh-btn" id="refresh-btn">
@@ -243,11 +243,11 @@
         
         <div id="loading" class="loading">
             <i class="fas fa-spinner fa-spin"></i>
-            <p>Loading prayer times...</p>
+            <p>Kemaskini waktu solat...</p>
         </div>
         
         <div id="error-message" class="error" style="display: none;">
-            <p>Unable to load prayer times. Please try again later.</p>
+            <p>Tidak dapat memuatkan waktu solat. Sila cuba lagi kemudian.</p>
         </div>
         
         <div class="prayer-times" id="prayer-times" style="display: none;">
@@ -255,13 +255,13 @@
         </div>
         
         <div class="next-prayer" id="next-prayer" style="display: none;">
-            <h3>Next Prayer</h3>
-            <div class="next-prayer-name" id="next-prayer-name">Loading...</div>
+            <h3>Solat seterusnya</h3>
+            <div class="next-prayer-name" id="next-prayer-name">Kemaskini...</div>
             <div class="countdown" id="countdown">--:--:--</div>
         </div>
         
         <footer>
-            <p>Prayer times provided by JAKIM e-solat API</p>
+            <p>Waktu Solat oleh JAKIM e-solat API</p>
         </footer>
     </div>
 
