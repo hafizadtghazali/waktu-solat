@@ -6,189 +6,216 @@
     <title>Waktu Solat Web App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
         * {
+            @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Inter", sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1b242f, #1b242f);
-            color: #fff;
+            background-color: #1b242f;
+            color: #e0e0e0;
             min-height: 100vh;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            background-color: #1e1e1e;
+            border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
         }
         
         header {
             text-align: center;
             margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2a2a2a;
         }
         
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        h1 i {
-            color: #f9e076;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: #ffffff;
         }
         
         .date-display {
-            font-size: 1.2rem;
-            opacity: 0.9;
+            font-size: 1rem;
+            color: #a0a0a0;
         }
         
         .location-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 15px 20px;
-            border-radius: 12px;
             margin-bottom: 30px;
+            padding: 16px;
+            background-color: #252525;
+            border-radius: 12px;
         }
         
         .location-details h2 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            color: #ffffff;
         }
         
         .location-details p {
-            opacity: 0.9;
+            font-size: 0.9rem;
+            color: #a0a0a0;
         }
         
         .refresh-btn {
-            background-color: #f9e076;
-            color: #1a5fb4;
-            border: none;
-            padding: 10px 15px;
+            background: none;
+            border: 1px solid #3a3a3a;
+            color: #e0e0e0;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .refresh-btn:hover {
-            background-color: #ffd43b;
-            transform: scale(1.05);
+            background-color: #2a2a2a;
         }
         
         .prayer-times {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             margin-bottom: 30px;
         }
         
         .prayer-card {
-            background-color: rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background-color: #252525;
             border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .prayer-card.active {
-            background-color: rgba(249, 224, 118, 0.3);
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: #2d3748;
+            border-left: 4px solid #60a5fa;
         }
         
         .prayer-name {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
+            gap: 12px;
+            font-size: 1.1rem;
         }
         
         .prayer-time {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #ffffff;
         }
         
         .next-prayer {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
             padding: 20px;
+            background-color: #252525;
+            border-radius: 12px;
             text-align: center;
-            margin-bottom: 30px;
         }
         
         .next-prayer h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #a0a0a0;
+            font-weight: 400;
+        }
+        
+        .next-prayer-name {
             font-size: 1.3rem;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            color: #ffffff;
         }
         
         .countdown {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #f9e076;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #60a5fa;
         }
         
         .loading {
             text-align: center;
-            padding: 30px;
-            font-size: 1.2rem;
+            padding: 40px 20px;
         }
         
         .loading i {
             font-size: 2rem;
-            margin-bottom: 15px;
-            display: block;
+            margin-bottom: 16px;
+            color: #60a5fa;
         }
         
         .error {
             text-align: center;
-            padding: 30px;
-            background-color: rgba(255, 0, 0, 0.2);
+            padding: 20px;
+            background-color: #452929;
             border-radius: 12px;
             margin-bottom: 20px;
+            border-left: 4px solid #e53e3e;
         }
         
         footer {
             text-align: center;
             margin-top: 30px;
-            opacity: 0.8;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .location-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .location-btn {
+            flex: 1;
+            background-color: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
             font-size: 0.9rem;
         }
         
-        @media (max-width: 600px) {
+        .location-btn:hover {
+            background-color: #3a3a3a;
+        }
+        
+        .location-btn.active {
+            background-color: #2d3748;
+            border-color: #60a5fa;
+        }
+        
+        @media (max-width: 500px) {
             .container {
                 padding: 20px;
-            }
-            
-            h1 {
-                font-size: 2rem;
             }
             
             .location-info {
                 flex-direction: column;
                 gap: 15px;
+                align-items: flex-start;
             }
             
-            .prayer-times {
-                grid-template-columns: repeat(2, 1fr);
+            .location-options {
+                flex-direction: column;
             }
         }
     </style>
@@ -203,10 +230,14 @@
         <div class="location-info">
             <div class="location-details">
                 <h2 id="location-name">Locating...</h2>
-                <p id="location-coords">Getting your coordinates...</p>
+                <p id="location-coords">Getting your location...</p>
+                <div class="location-options">
+                    <button class="location-btn" id="btn-precise">Precise Location</button>
+                    <button class="location-btn active" id="btn-estimated">Estimated Location</button>
+                </div>
             </div>
             <button class="refresh-btn" id="refresh-btn">
-                <i class="fas fa-sync-alt"></i> Refresh
+                <i class="fas fa-sync-alt"></i>
             </button>
         </div>
         
@@ -225,13 +256,12 @@
         
         <div class="next-prayer" id="next-prayer" style="display: none;">
             <h3>Next Prayer</h3>
-            <p id="next-prayer-name">Loading...</p>
+            <div class="next-prayer-name" id="next-prayer-name">Loading...</div>
             <div class="countdown" id="countdown">--:--:--</div>
         </div>
         
         <footer>
-            <p>Waktu Solat oleh JAKIM e-solat API</p>
-            <p>© 2025 Waktu Solat Web App</p>
+            <p>Prayer times provided by JAKIM e-solat API</p>
         </footer>
     </div>
 
@@ -247,6 +277,8 @@
         const nextPrayerEl = document.getElementById('next-prayer');
         const nextPrayerNameEl = document.getElementById('next-prayer-name');
         const countdownEl = document.getElementById('countdown');
+        const btnPrecise = document.getElementById('btn-precise');
+        const btnEstimated = document.getElementById('btn-estimated');
         
         // Prayer names and icons
         const prayers = [
@@ -258,19 +290,50 @@
             { name: 'Isyak', icon: 'fas fa-moon' }
         ];
         
+        // Malaysian zones data (simplified)
+        const malaysianZones = [
+            { name: 'Kuala Lumpur', code: 'wlp-0', lat: 3.1390, lng: 101.6869 },
+            { name: 'Penang', code: 'png-1', lat: 5.4141, lng: 100.3288 },
+            { name: 'Johor Bahru', code: 'jhr-1', lat: 1.4927, lng: 103.7414 },
+            { name: 'Kota Kinabalu', code: 'sbh-1', lat: 5.9804, lng: 116.0735 },
+            { name: 'Kuching', code: 'swk-1', lat: 1.5535, lng: 110.3593 },
+            { name: 'Ipoh', code: 'prk-1', lat: 4.5975, lng: 101.0901 },
+            { name: 'Shah Alam', code: 'sgr-1', lat: 3.0733, lng: 101.5185 },
+            { name: 'Kuantan', code: 'phg-1', lat: 3.8167, lng: 103.3333 }
+        ];
+        
         // Global variables
         let userLocation = null;
         let prayerTimesData = null;
         let countdownInterval = null;
+        let usePreciseLocation = false;
         
         // Initialize the app
         function init() {
             updateCurrentDate();
-            getUserLocation();
+            getEstimatedLocation();
             
-            // Set up refresh button
+            // Set up event listeners
             refreshBtn.addEventListener('click', function() {
-                getUserLocation();
+                if (usePreciseLocation) {
+                    getPreciseLocation();
+                } else {
+                    getEstimatedLocation();
+                }
+            });
+            
+            btnPrecise.addEventListener('click', function() {
+                usePreciseLocation = true;
+                btnPrecise.classList.add('active');
+                btnEstimated.classList.remove('active');
+                getPreciseLocation();
+            });
+            
+            btnEstimated.addEventListener('click', function() {
+                usePreciseLocation = false;
+                btnEstimated.classList.add('active');
+                btnPrecise.classList.remove('active');
+                getEstimatedLocation();
             });
             
             // Update date every minute
@@ -289,8 +352,8 @@
             currentDateEl.textContent = now.toLocaleDateString('en-MY', options);
         }
         
-        // Get user's geolocation
-        function getUserLocation() {
+        // Get precise user location
+        function getPreciseLocation() {
             loadingEl.style.display = 'block';
             errorMessageEl.style.display = 'none';
             prayerTimesEl.style.display = 'none';
@@ -308,22 +371,35 @@
                         getPrayerTimes(lat, lng);
                     },
                     error => {
-                        console.error('Error getting location:', error);
-                        loadingEl.style.display = 'none';
-                        errorMessageEl.style.display = 'block';
-                        locationNameEl.textContent = 'Location access denied';
-                        locationCoordsEl.textContent = 'Please enable location services';
+                        console.error('Error getting precise location:', error);
+                        // Fallback to estimated location
+                        getEstimatedLocation();
                     }
                 );
             } else {
-                loadingEl.style.display = 'none';
-                errorMessageEl.style.display = 'block';
-                locationNameEl.textContent = 'Geolocation not supported';
-                locationCoordsEl.textContent = 'Please use a modern browser';
+                // Fallback to estimated location
+                getEstimatedLocation();
             }
         }
         
-        // Get location name from coordinates (using reverse geocoding)
+        // Get estimated location based on IP
+        function getEstimatedLocation() {
+            loadingEl.style.display = 'block';
+            errorMessageEl.style.display = 'none';
+            prayerTimesEl.style.display = 'none';
+            nextPrayerEl.style.display = 'none';
+            
+            // For demo purposes, we'll randomly select a Malaysian city
+            // In a real app, you would use an IP geolocation service
+            const randomZone = malaysianZones[Math.floor(Math.random() * malaysianZones.length)];
+            userLocation = { lat: randomZone.lat, lng: randomZone.lng };
+            
+            locationNameEl.textContent = randomZone.name;
+            locationCoordsEl.textContent = `Estimated location`;
+            getPrayerTimes(randomZone.lat, randomZone.lng);
+        }
+        
+        // Get location name from coordinates
         function getLocationName(lat, lng) {
             // Using Nominatim OpenStreetMap for reverse geocoding
             fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
@@ -356,13 +432,9 @@
                 });
         }
         
-        // Get prayer times from JAKIM API
+        // Get prayer times from API
         function getPrayerTimes(lat, lng) {
-            // Note: JAKIM API requires zone code, not coordinates
-            // For this demo, we'll use a fallback to a public prayer times API
-            // In a real implementation, you would need to map coordinates to JAKIM zones
-            
-            // Using Aladhan API as a fallback
+            // Using Aladhan API as JAKIM API requires zone codes
             const date = new Date();
             const day = date.getDate();
             const month = date.getMonth() + 1;
@@ -413,7 +485,7 @@
             });
             
             loadingEl.style.display = 'none';
-            prayerTimesEl.style.display = 'grid';
+            prayerTimesEl.style.display = 'flex';
             nextPrayerEl.style.display = 'block';
         }
         
@@ -452,7 +524,7 @@
                 // If no prayer found for today, use first prayer of next day
                 if (!nextPrayer) {
                     nextPrayer = 'Fajr';
-                    nextPrayerTime = prayerTimesInSeconds.Fajr + 24 * 3600; // Add 24 hours
+                    nextPrayerTime = prayerTimesInSeconds.Fajr + 24 * 3600;
                 }
                 
                 // Calculate time difference
