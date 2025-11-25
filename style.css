@@ -68,7 +68,7 @@
         
         .refresh-btn {
             background: none;
-            border: 1px solid #161c18;
+            border: 1px solid #455245;
             color: #e0e0e0;
             padding: 10px;
             border-radius: 8px;
@@ -177,7 +177,7 @@
         .location-btn {
             flex: 1;
             background-color: #01a247;
-            border: 1px solid #caebc9;
+            border: 1px solid #00a347;
             color: #e0e0e0;
             padding: 10px;
             border-radius: 8px;
